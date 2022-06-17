@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "ky": "^0.30.0",
+    "mongodb": "^4.7.0",
     "solid-js": "^1.4.2"
   }
 }
