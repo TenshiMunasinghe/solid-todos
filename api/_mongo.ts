@@ -1,5 +1,7 @@
-import { MongoClient, ServerApiVersion } from 'mongodb'
-const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.girokwp.mongodb.net/?retryWrites=true&w=majority`
-export const client = new MongoClient(uri, {
-  serverApi: ServerApiVersion.v1,
-})
+import { MongoClient } from 'mongodb'
+
+const userName = encodeURIComponent(process.env.USER_NAME)
+const password = encodeURIComponent(process.env.PASSWORD)
+
+const uri = `mongodb+srv://${userName}:${password}@cluster0.girokwp.mongodb.net/?retryWrites=true&w=majority`
+export const client = new MongoClient(uri)
