@@ -1,16 +1,24 @@
 import ky from 'ky'
-import { Component, createResource } from 'solid-js'
+import { Component, createResource, Suspense } from 'solid-js'
+import Input from './components/Input'
+import TodoList from './components/TodoList'
 
 const App: Component = () => {
   const [data] = createResource(
     () => 'api/todos',
     async url => {
-      const res = await ky.get(url).json()
-      console.log(res)
+      return ky.get(url).json<Todo[]>()
     }
   )
+
+  const onSubmit = (value: string) => {}
   return (
-    <p class='text-4xl text-green-700 text-center py-20'>Hello tailwind!</p>
+    <div class='max-w-7xl mx-auto py-12 px-6 min-h-screen space-y-12'>
+      <Input onSubmit={onSubmit} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TodoList todos={data()} />
+      </Suspense>
+    </div>
   )
 }
 

@@ -5,7 +5,10 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      code: ['"Source Code Pro"'],
+    },
     extend: {},
   },
-  plugins: [],
-};
+  plugins: [require('@tailwindcss/forms')],
+}
