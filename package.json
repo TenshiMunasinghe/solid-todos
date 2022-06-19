@@ -21,6 +21,7 @@
     "@tailwindcss/forms": "^0.5.2",
     "ky": "^0.30.0",
     "mongodb": "^4.7.0",
+    "solid-icons": "^0.4.13",
     "solid-js": "^1.4.2"
   }
 }
