@@ -1,4 +1,5 @@
 import { FiTrash2 } from 'solid-icons/fi'
+import { createEffect, createSignal } from 'solid-js'
 
 interface Props {
   todo: Todo
@@ -7,13 +8,19 @@ interface Props {
 
 const Todo = (props: Props) => {
   let ref: HTMLInputElement | null = null
+
+  const [content, setContent] = createSignal(props.todo.content)
+
+  createEffect(() => {
+    console.log(content())
+  })
+
   const handleRemove = () => {
     props.removeTodo(props.todo._id)
   }
 
   const handleEdit = () => {
-    if (ref.value === props.todo.content) return
-    console.log(ref.value)
+    setContent(ref.value)
   }
 
   return (
@@ -28,7 +35,7 @@ const Todo = (props: Props) => {
         <input
           ref={ref}
           type='text'
-          value={props.todo.content}
+          value={content()}
           onBlur={handleEdit}
           class='bg-transparent border-0 focus:ring-0 focus:bg-neutral-700 flex-1'
         />
