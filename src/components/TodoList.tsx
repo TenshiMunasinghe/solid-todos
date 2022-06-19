@@ -8,7 +8,7 @@ interface Props {
 
 const TodoList = (props: Props) => {
   return (
-    <ul class=''>
+    <ul class='space-y-5'>
       <For each={props.todos}>
         {todo => <Todo todo={todo} removeTodo={props.removeTodo} />}
       </For>
