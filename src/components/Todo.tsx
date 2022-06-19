@@ -11,7 +11,7 @@ const Todo = (props: Props) => {
   }
   return (
     <li class='bg-neutral-800 px-5 py-2 flex items-center space-x-4'>
-      <form class='flex-1 flex items-center'>
+      <form class='flex-1 flex items-center space-x-4'>
         <input
           type='text'
           value={props.todo.content}
