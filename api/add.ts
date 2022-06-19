@@ -7,11 +7,12 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   try {
     client.connect(async err => {
       const collection = client.db('solid-todo').collection('todos')
-      const added = await collection.insertOne({
+      const newTodo = {
         content: todo,
         isCompleted: false,
-      })
-      response.json({ success: true, added })
+      }
+      const added = await collection.insertOne(newTodo)
+      response.json({ success: true, added: { ...added, todo: newTodo } })
     })
   } catch (error) {
     console.error(error)

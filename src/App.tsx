@@ -1,10 +1,11 @@
 import ky from 'ky'
+import { Document, InsertOneResult } from 'mongodb'
 import { Component, createResource, Suspense } from 'solid-js'
 import Input from './components/Input'
 import TodoList from './components/TodoList'
 
 const App: Component = () => {
-  const [data, { mutate, refetch }] = createResource(
+  const [data, { mutate }] = createResource(
     () => 'api/todos',
     async url => {
       return ky.get(url).json<Todo[]>()
@@ -12,12 +13,13 @@ const App: Component = () => {
   )
 
   const onSubmit = async (value: string) => {
-    const res = await ky
-      .post('api/add', { json: { todo: value } })
-      .json<{ success: boolean; added: Todo }>()
+    const res = await ky.post('api/add', { json: { todo: value } }).json<{
+      success: boolean
+      added: InsertOneResult<Document> & { todo: Todo }
+    }>()
 
     if (!res.success) return
-    await refetch()
+    mutate(prev => [...prev, res.added.todo])
   }
 
   const removeTodo = async (id: string) => {

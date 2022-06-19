@@ -8,7 +8,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   try {
     client.connect(async err => {
       const collection = client.db('solid-todo').collection('todos')
-      const removed = await collection.deleteOne({ _id: new ObjectId(id) })
+      await collection.deleteOne({ _id: new ObjectId(id) })
       response.json({ success: true, removed: id })
     })
   } catch (error) {
