@@ -5,11 +5,13 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   const { todo } = request.body
   if (!todo) return
   try {
-    client.connect(err => {
+    client.connect(async err => {
       const collection = client.db('solid-todo').collection('todos')
-      const newTodo = { content: todo, isCompleted: false }
-      collection.insertOne(newTodo)
-      response.json({ success: true, added: newTodo })
+      const added = await collection.insertOne({
+        content: todo,
+        isCompleted: false,
+      })
+      response.json({ success: true, added })
     })
   } catch (error) {
     console.error(error)
