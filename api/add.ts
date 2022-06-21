@@ -11,8 +11,8 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         content: todo,
         isCompleted: false,
       }
-      const added = await collection.insertOne(newTodo)
-      response.json({ success: true, added: { ...added, todo: newTodo } })
+      await collection.insertOne(newTodo)
+      response.json({ success: true, added: newTodo })
     })
   } catch (error) {
     console.error(error)

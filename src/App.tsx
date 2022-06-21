@@ -1,5 +1,4 @@
 import ky from 'ky'
-import { Document, InsertOneResult } from 'mongodb'
 import { Component, createResource, Suspense } from 'solid-js'
 import Input from './components/Input'
 import TodoList from './components/TodoList'
@@ -15,11 +14,11 @@ const App: Component = () => {
   const onSubmit = async (value: string) => {
     const res = await ky.post('api/add', { json: { todo: value } }).json<{
       success: boolean
-      added: InsertOneResult<Document> & { todo: Todo }
+      added: Todo
     }>()
 
     if (!res.success) return
-    mutate(prev => [...prev, res.added.todo])
+    mutate(prev => [...prev, res.added])
   }
 
   const removeTodo = async (ids: string[]) => {
