@@ -1,5 +1,6 @@
+import ky from 'ky'
 import { FiTrash2 } from 'solid-icons/fi'
-import { createEffect, createSignal } from 'solid-js'
+import { createEffect, createSignal, on } from 'solid-js'
 
 interface Props {
   todo: Todo
@@ -11,16 +12,30 @@ const Todo = (props: Props) => {
 
   const [content, setContent] = createSignal(props.todo.content)
 
-  createEffect(() => {
-    console.log(content())
-  })
+  const editTodo = async (id: string, todo: Partial<Omit<Todo, '_id'>>) => {
+    await ky
+      .post('/api/edit', { json: { id, todo } })
+      .json<{ success: boolean; todo: Todo }>()
+  }
+
+  createEffect(
+    on(
+      content,
+      newContent => editTodo(props.todo._id, { content: newContent }),
+      { defer: true }
+    )
+  )
+
+  const handleEdit = () => {
+    setContent(ref.value)
+  }
 
   const handleRemove = () => {
     props.removeTodo(props.todo._id)
   }
 
-  const handleEdit = () => {
-    setContent(ref.value)
+  const handleToggle = (isCompleted: boolean) => {
+    editTodo(props.todo._id, { isCompleted })
   }
 
   return (
@@ -43,6 +58,7 @@ const Todo = (props: Props) => {
           type='checkbox'
           checked={props.todo.isCompleted}
           class='bg-transparent text-green-500 focus:ring-green-500'
+          onChange={e => handleToggle(e.currentTarget.checked)}
         />
       </form>
       <button onClick={handleRemove}>
