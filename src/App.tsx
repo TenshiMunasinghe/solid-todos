@@ -22,19 +22,13 @@ const App: Component = () => {
     mutate(prev => [...prev, res.added.todo])
   }
 
-  const removeTodo = async (id: string) => {
+  const removeTodo = async (ids: string[]) => {
     const res = await ky
-      .post('api/remove', { json: { id } })
-      .json<{ success: boolean; removed: string }>()
+      .post('api/remove', { json: { ids } })
+      .json<{ success: boolean; removed: string[] }>()
 
     if (!res.success) return
-    mutate(todos => {
-      const removedTodoIdx = todos.findIndex(todo => todo._id === res.removed)
-      return [
-        ...todos.slice(0, removedTodoIdx),
-        ...todos.slice(removedTodoIdx + 1),
-      ]
-    })
+    mutate(todos => todos.filter(todo => !res.removed.includes(todo._id)))
   }
   return (
     <div class='max-w-7xl mx-auto py-12 px-6 min-h-screen space-y-12'>
