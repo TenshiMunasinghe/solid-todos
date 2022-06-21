@@ -7,7 +7,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
       const collection = client.db('solid-todo').collection('todos')
       collection.find({}).toArray((error, documents) => {
         if (err) throw error
-        response.send(documents)
+        response.json(documents)
       })
     })
   } catch (error) {
