@@ -12,10 +12,9 @@ const App: Component = () => {
   )
 
   const onSubmit = async (value: string) => {
-    const res = await ky.post('api/add', { json: { todo: value } }).json<{
-      success: boolean
-      added: Todo
-    }>()
+    const res = await ky
+      .post('api/add', { json: { todo: value } })
+      .json<APIResponse.Add>()
 
     if (!res.success) return
     mutate(prev => [...prev, res.added])
@@ -24,7 +23,7 @@ const App: Component = () => {
   const removeTodo = async (ids: string[]) => {
     const res = await ky
       .post('api/remove', { json: { ids } })
-      .json<{ success: boolean; removed: string[] }>()
+      .json<APIResponse.Remove>()
 
     if (!res.success) return
     mutate(todos => todos.filter(todo => !res.removed.includes(todo._id)))

@@ -12,7 +12,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
         isCompleted: false,
       }
       await collection.insertOne(newTodo)
-      response.json({ success: true, added: newTodo })
+      response.json({ success: true, added: newTodo } as APIResponse.Add)
     })
   } catch (error) {
     console.error(error)

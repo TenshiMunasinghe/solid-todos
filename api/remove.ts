@@ -16,7 +16,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
           _id: { $in: ids.map(id => new ObjectId(id)) },
         })
       }
-      response.json({ success: true, removed: ids })
+      response.json({ success: true, removed: ids } as APIResponse.Remove)
     })
   } catch (error) {
     console.error(error)

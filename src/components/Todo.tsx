@@ -15,9 +15,7 @@ const Todo = (props: Props) => {
   const [content, setContent] = createSignal(props.todo.content)
 
   const editTodo = async (id: string, todo: Partial<Omit<Todo, '_id'>>) => {
-    await ky
-      .post('/api/edit', { json: { id, todo } })
-      .json<{ success: boolean; todo: Todo }>()
+    await ky.post('/api/edit', { json: { id, todo } }).json<APIResponse.Edit>()
   }
 
   createEffect(

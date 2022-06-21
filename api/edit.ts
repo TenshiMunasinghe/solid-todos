@@ -9,7 +9,10 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     client.connect(async err => {
       const collection = client.db('solid-todo').collection('todos')
       await collection.updateOne({ _id: new ObjectId(id) }, { $set: todo })
-      response.json({ success: true, edited: { id, ...todo } })
+      response.json({
+        success: true,
+        edited: { id, ...todo },
+      } as APIResponse.Edit)
     })
   } catch (error) {
     console.error(error)
