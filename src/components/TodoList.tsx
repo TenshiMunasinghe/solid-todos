@@ -39,9 +39,7 @@ const TodoList = (props: Props) => {
     <div class='flex flex-col space-y-8'>
       <div class='space-x-6'>
         <button onClick={toggleSelecting}>
-          <Show when={isSelecting()} fallback='Edit'>
-            Cancel
-          </Show>
+          {isSelecting() ? 'Delete' : 'Edit'}
         </button>
         <Show when={isSelecting() && selected().length > 0}>
           <button onClick={handleMultipleRemove}>Delete</button>
